@@ -377,5 +377,89 @@ int main()
 
 }
 
+/*
+#include <stdio.h>
+#include <cstdlib>
 
+#include <windows.h>
+#include <stdlib.h>
+#include <iostream>
+#define MenuInicio 1     // Establecer el primer numero del menu
+#define MenuFin 7	 // Establecer último numero del menu
+#define LineaDeInicio 2  // Establecer la linea donde empieza el menu
+using namespace std;
+// ir a una línea determinada
+void goy(int y);
+
+int main() {
+	int Menu; // Controla el menu seleccionado actualmente
+	system("color F3");
+	
+	cout << "---CALCULADORA DE CONVERSIONES---\nSeleccione opcion:";
+	// ir a la linea de inicio, DEBE ir antes del menu seleccionable!!! No olvidar
+	goy(LineaDeInicio); 
+	cout <<"\t1. Convertir de Binario a Decimal \n";
+	cout <<"\t2. Convertir de Decimal a Binario \n";
+	cout <<"\t3. Convertir de Binario a Octal \n";
+	cout <<"\t4. Convertir de Binario a Hexadecimal \n";
+	cout <<"\t5. Convertir de Texto a Binario\n";
+	cout <<"\t6. Creditos y Reparto \n";
+	cout <<"\t7. Salir de el programa\n";
+
+	Menu = 1;
+	goy(LineaDeInicio);
+	cout << "---->";
+
+	while(true) {
+		// Retrasar el ciclo un poco
+		Sleep(100);
+		// Saber si la flecha de arriba fue pulsada
+		if (GetAsyncKeyState(VK_UP)) {
+			// Si Menu == 1, Menu = MenuFin, sino, Menu = Menu -1
+			Menu = Menu == MenuInicio ? MenuFin: --Menu;
+			// Eliminar la flecha actual
+			cout << "\r     ";
+			// Ir a la linea del próximo menu
+			goy(LineaDeInicio + Menu-1);
+			// Poner la nueva flecha
+			cout << "---->";
+		} else if (GetAsyncKeyState(VK_DOWN)) {
+			Menu = Menu == MenuFin ? MenuInicio: ++Menu;
+			cout << "\r     ";
+			goy(LineaDeInicio + Menu-1);
+			cout << "---->";
+		} else if (GetAsyncKeyState(VK_RETURN)) { 
+			break;
+		}
+	}
+
+	// Opcional... Mostrar en pantalla el numero seleccionado
+	goy(10);
+	printf("Has seleccionado la opcion %d!\n\n\n", Menu);
+	if(Menu ==1){
+		printf("hola");
+	}
+	/*
+	
+	AQUI SE PUEDE HACER EL TIPICO SWITCH ANALIZANDO LA OPCION
+        QUE SELECCIONÓ EL USUARIO
+	
+	*/
+
+	system("pause");
+}
+
+
+void goy(int y) {
+	// Obtener handle de la consola
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	// Establecer posición del nuevo cursor
+	COORD pos;
+	pos.X = 0;
+	pos.Y = y;
+	// Colocar el cursor en el nuevo sitio
+	SetConsoleCursorPosition(hConsole, pos);
+}
+
+*/
 
