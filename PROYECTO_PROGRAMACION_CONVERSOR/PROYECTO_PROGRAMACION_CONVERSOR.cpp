@@ -10,10 +10,16 @@
 #include <sstream>
 #include <cstdlib>
 #include <cmath>
-#include<stdlib.h>
 #include <iomanip>
+#include <wchar.h>
+#include <locale.h>
+#include <stdlib.h>
+
 #define MAX 10000
 using namespace std;
+
+
+/* Funcion gotoxy sirve para asignar un plano cartesiano en la consola de salida e imprimir en ese punto con las coordenadas X  y Y dadas.*/
 void gotoxy(int x, int y)
 {
 	HANDLE hcon;
@@ -23,14 +29,69 @@ void gotoxy(int x, int y)
 	dwPos.Y = y;
 	SetConsoleCursorPosition(hcon, dwPos);
 }
-//equipo:Brandon Azariel Aguirre Solorio, gilberto valenzuela martinez, denzel roberto de la rosa lopez,jesus alejandro padilla ayala, luis roberto pinto guitierrez y sebastian gomez calvario
-long convertirBinarioaDecimal(long double);
-void pausa();
+
+
+/* Función para imprimir los marcos en cada sección del programa*/
+void Marcodepantalla(int lowx,int upx,int lowy,int upy,int gotox1,int gotox2,int gotoy1,int gotoy2)
+{
+		for (int x = lowx; x <= upx; x++)
+		{
+			gotoxy(x, gotoy1);
+			putchar('*');
+			gotoxy(x, gotoy2);
+			putchar('*');
+
+		}
+		for (int y = lowy; y <= upy; y++)
+		{
+			gotoxy(gotox1, y);
+			putchar('*');
+			gotoxy(gotox2, y);
+			putchar('*');
+		}	
+}
+void limpiarpantalla(const char* color)
+{
+			system("cls");
+			system(color);	
+}
+//No borrar del programa
+/*long convertirBinarioaDecimal(long double); 
+void pausa();*/
 long long unsigned numero;
+
+long convertirBinarioaDecimal(long double)
+{
+	long long numeroDecimal = 0, i = 0, recordatorio;
+
+	while (numero != 0)
+	{
+		recordatorio = numero % 10;
+		numero /= 10;
+		numeroDecimal += recordatorio * pow(2, i);
+		++i;
+	}
+	return numeroDecimal;
+}
+
+
+void pausa()
+{
+	cout << "Pulsa una tecla para continuar................";
+	getwchar();
+	getwchar();
+}
+
+
+
+
+
 int main()
 {
+	
+	setlocale(LC_ALL,""); //Nos permite utilizar acentos en la salida del programa
 	char texto[1024];
-	long long contador = 0, num, resultado, cerosunos[1024], i;//variables de convertir texto a numero
+	long long contador = 0, num, resultado, cerosunos[1024], i;//variables de convertir texto a número
 	long long unsigned numerodecimal, exp, digito; double long binario; //variables del convertidor de decimal a binario
 	long numerobin, resto, cociente; long numeroctal[1024], brand, rad, exponente, digit; double numerodeci; //variables binario a octal
 	char binnum[MAX], hexa[MAX]; long  temp; long  den, alex;//variables binario a hexadecimal
@@ -42,26 +103,10 @@ int main()
 
 		system("cls");
 		cin.clear();
-		for (int x = 1; x <= 119; x++)
-
-		{
-			gotoxy(x, 4);
-			putchar('*');
-			gotoxy(x, 14);
-			putchar('*');
-
-		}
-
-		for (int y = 4; y <= 14; y++)
-		{
-			gotoxy(0, y);
-			putchar('*');
-			gotoxy(119, y);
-			putchar('*');
-		}
+		Marcodepantalla(1,119,4,14,0,119,4,14);
 		gotoxy(1, 0);
 		cout << "-----------------------------------------------------------------------------------------------------------------------\n";
-		cout << "|                                            CALCULADORA DE CONVERCIONES                                                \n";
+		cout << "|                                            CALCULADORA DE CONVERSIONES                                                \n";
 		cout << "------------------------------------------------------------------------------------------------------------------------\n" << endl;
 		system("color 02");
 		gotoxy(0, 6);
@@ -84,32 +129,15 @@ int main()
 		switch (tecla)
 		{
 		case '1':
-			system("cls");
-			system("color 2");
-			for (int x = 1; x <= 130; x++)
-
-			{
-				gotoxy(x, 4);
-				putchar('*');
-				gotoxy(x, 11);
-				putchar('*');
-
-			}
-
-			for (int y = 4; y <= 10; y++)
-			{
-				gotoxy(0, y);
-				putchar('*');
-				gotoxy(119, y);
-				putchar('*');
-			}
+			limpiarpantalla("color 2");
+			Marcodepantalla(1,130,4,10,0,119,4,11);
 			gotoxy(1, 0);
 			cout << "-----------------------------------------------------------------------------------------------------------------------\n";
 			cout << "                                Has elegido convertir de  Binario a Decimal. \n" << endl;
 			cout << "------------------------------------------------------------------------------------------------------------------------\n";
 			gotoxy(1, 12);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			cout << "Nota: solo introduce los numeros 0 y 1 ya que equivalen al lenguaje del codigo binario" << endl << endl;
+			cout << "Nota: Solo introduce los numeros 0 y 1, ya que equivalen al lenguaje del código binario" << endl << endl;
 			gotoxy(3, 5);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 			cout << "Introduce el numero a convertir: " << endl;
@@ -123,34 +151,17 @@ int main()
 			break;
 
 		case '2':
-			system("cls");
-			system("color 06");
-			for (int x = 1; x <= 118; x++)
-
-			{
-				gotoxy(x, 4);
-				putchar('*');
-				gotoxy(x, 11);
-				putchar('*');
-
-			}
-
-			for (int y = 4; y <= 10; y++)
-			{
-				gotoxy(0, y);
-				putchar('*');
-				gotoxy(119, y);
-				putchar('*');
-			}
+			limpiarpantalla("color 06");
+			Marcodepantalla(1,118,4,10,0,119,4,11);
 			gotoxy(1, 0);
 			cout << "--------------------------------------------------------------------------------------------------------------------\n";
 			cout << "                                    Has elegido convertir de Decimal a Binario. \n";
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			cout << "Nota: ingresa solo numeros decimales enteros y pocitivos " << endl << endl;
+			cout << "Nota: ingresa solo números decimales enteros y positivos " << endl << endl;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 			gotoxy(4, 5);
-			cout << "Introduce el numero decimal a convertir: " << endl;
+			cout << "Introduce el número decimal a convertir: " << endl;
 			gotoxy(4, 6);
 			cin >> numerodecimal;
 			exp = 0;
@@ -166,42 +177,25 @@ int main()
 			gotoxy(4, 6);
 			cout << fixed << setprecision(0);
 			gotoxy(4, 7);
-			cout << "El numero desimal ingresado convertido en binario es = " << binario << endl;
+			cout << "El número decimal ingresado convertido en binario es = " << binario << endl;
 			gotoxy(4, 14);
 			pausa();
 			break;
 
 		case '3':
-			system("cls");
-			system("color 04");
-			for (int x = 1; x <= 118; x++)
-
-			{
-				gotoxy(x, 4);
-				putchar('*');
-				gotoxy(x, 11);
-				putchar('*');
-
-			}
-
-			for (int y = 4; y <= 10; y++)
-			{
-				gotoxy(0, y);
-				putchar('*');
-				gotoxy(118, y);
-				putchar('*');
-			}
+			limpiarpantalla("color 04");
+			Marcodepantalla(1,118,4,10,0,118,4,11);
 			gotoxy(1, 0);
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
 			cout << "                                      Has elegido convertir de Binario a Octal. \n";
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
 			gotoxy(1, 12);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			cout << "Nota: introduce solo los numeros 0 y 1 equibalente al codigo binario" << endl << endl;
-			cout << "El sistema octal reconoce por 3 espacios numericos, en este programa no hay nesecidad de rellenar los 0 faltantes ya   que el solo los complementa al numero binario ingresado" << endl << endl;
+			cout << "Nota: Introduce solo los números 0 y 1 equivalente al codigo binario" << endl << endl;
+			cout << "El sistema octal reconoce por 3 espacios numéricos, en este programa no hay necesidad de rellenar los 0 faltantes, ya que él solo los complementa al número binario ingresado" << endl << endl;
 			gotoxy(3, 5);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-			cout << "Introduce el numero binario a convertir en el sistema octal: " << endl;
+			cout << "Introduce el número binario a convertir en el sistema octal: " << endl;
 			gotoxy(4, 6);
 			cin >> numerobin;
 			exponente = 0;
@@ -227,41 +221,24 @@ int main()
 			}
 			for (rad = brand - 1; rad > 0; rad--)
 				cout << numeroctal[rad];
-			cout << " Es numero de el sistema octal equibalente al numero binario ingresado" << endl;
+			cout << " Es número del sistema octal equivalente al número binario ingresado" << endl;
 			gotoxy(1, 19);
 			pausa();
 			break;
 
 		case '4':
-			system("cls");
-			system("color 03");
-			for (int x = 1; x <= 118; x++)
-
-			{
-				gotoxy(x, 4);
-				putchar('*');
-				gotoxy(x, 11);
-				putchar('*');
-
-			}
-
-			for (int y = 4; y <= 10; y++)
-			{
-				gotoxy(0, y);
-				putchar('*');
-				gotoxy(118, y);
-				putchar('*');
-			}
+			limpiarpantalla("color 03");
+			Marcodepantalla(1,118,4,10,0,118,4,11);
 			gotoxy(1, 0);
 			cout << "------------------------------------------------------------------------------------------------------------------------\n";
 			cout << "                                      Has elegido convertir de Binario a Hexadecimal. \n";
 			cout << "------------------------------------------------------------------------------------------------------------------------\n";
 			gotoxy(3, 5);
-			cout << "Introduzca el numero binario para comvertir a el sistema hexadecimal : " << endl;
+			cout << "Introduzca el número binario para comvertir al sistema hexadecimal : " << endl;
 			gotoxy(4, 6);
 			cin >> binnum;
 			gotoxy(1, 4);
-			cout << "Nota: introduce solo los numeros 0 y 1 equibalente al codigo binario" << endl;
+			cout << "Nota: Introduce solo los números 0 y 1 equivalente al código binario" << endl;
 			den = 0;
 			alex = 0;
 			while (binnum[den])
@@ -297,33 +274,16 @@ int main()
 			break;
 
 		case '5':
-			system("cls");
-			system("color 2");
-			for (int x = 1; x <= 118; x++)
-
-			{
-				gotoxy(x, 4);
-				putchar('*');
-				gotoxy(x, 11);
-				putchar('*');
-
-			}
-
-			for (int y = 4; y <= 10; y++)
-			{
-				gotoxy(0, y);
-				putchar('*');
-				gotoxy(118, y);
-				putchar('*');
-			}
+			limpiarpantalla("color 2");
+			Marcodepantalla(1,118,4,10,0,118,4,11);
 			gotoxy(1, 0);
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
-			cout << "                              Has elegido la opcion convertir un Texto a numero Binario\n";
+			cout << "                              Has elegido la opcion convertir un Texto a número Binario\n";
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
-			cout << "introduce letras o palabras, caracteres especiales y numeros determinados por la tabla ascii" << endl << endl;
+			cout << "introduce letras o palabras, carácteres especiales y números determinados por la tabla ascii" << endl << endl;
 			gotoxy(1, 12);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			cout << "Nota: Este programa por el momento no reconoze la tecla espacio estamos trabajando para solucionarlo, por el momento solo lee de palabra no importa su extencion o puedes separar las palabras con comas. " << endl << endl;
+			cout << "Nota: Este programa por el momento no reconoce la tecla espacio. Estamos trabajando para solucionarlo, por el momento solo lee de palabra, no importa su extensión o puedes separar las palabras con comas. " << endl << endl;
 			gotoxy(3, 5);
 			cout << "Introduce el texto a convertir: " << endl;
 			gotoxy(3, 6);
@@ -395,20 +355,10 @@ int main()
 			break;
 
 		case '6':
-			system("cls");
-			system("color 0b");
+			limpiarpantalla("color 0b");
 			cout << "---------------------------------------------------------------------------------------------------------------------\n";
-			cout << "                                            creditos y reparto del programa \n";
-			cout << "---------------------------------------------------------------------------------------------------------------------\n" << endl;
-			cout << "proyecto calculadora de converciones" << endl << endl;
-			cout << "Materias: programacion 1 y logica matematica " << endl << endl;
-			cout << "Integrantes: " << endl;
-			cout << "1.- Brandon Azariel Aguirre Solorio." << endl;
-			cout << "2.- Jesus Alegandro Padilla Ayala." << endl;
-			cout << "3.- Gilberto Valenzuela Martinez." << endl;
-			cout << "4.- Denzel Roberto De la rosa Lopez." << endl;
-			cout << "5.- Luis Roberto Pinto Guitierrez." << endl;
-			cout << "6.- Sebastian Gomez Calvario." << endl << endl;
+			cout << "                                            Créditos y Reparto del programa \n";
+			/*Insertar nombres de los integrantes*/
 			pausa();
 			break;
 		case '7':
@@ -416,9 +366,8 @@ int main()
 			//exist(1)
 			break;
 		default:
-			system("cls");
-			system("color a5");
-			cout << "Opcion no valida. ingrese una de las 6 opciones mostradas \a \n";
+			limpiarpantalla("color a5");
+			cout << "Opción no válida. Ingrese una de las 6 opciones mostradas \a \n";
 			pausa();
 			break;
 
@@ -428,25 +377,5 @@ int main()
 
 }
 
-
-long convertirBinarioaDecimal(long double)
-{
-	long long numeroDecimal = 0, i = 0, recordatorio;
-
-	while (numero != 0)
-	{
-		recordatorio = numero % 10;
-		numero /= 10;
-		numeroDecimal += recordatorio * pow(2, i);
-		++i;
-	}
-	return numeroDecimal;
-}
-void pausa()
-{
-	cout << "Pulsa una tecla para continuar................";
-	getwchar();
-	getwchar();
-}
 
 
